@@ -4,7 +4,8 @@ class KeepMovie extends React.Component {
 
     state = {
         favourite: [],
-        controlFav: false
+        controlFav: false,
+        message: ""
     }
 
     componentDidMount() {
@@ -23,19 +24,33 @@ class KeepMovie extends React.Component {
             description: this.props.name.description,
             imdb: this.props.name.imdb
         }
-        this.setState({
-            controlFav: true
-        });
-        this.props.name.searhBind = false;
-        this.state.favourite.push(info);
-        localStorage.setItem("favouriteInfo", JSON.stringify(this.state.favourite));
+
+        if (info.year == "") {
+            console.log("Film Yok");
+            this.setState({
+                message: "Movie or Series not found"
+            })
+            this.props.name.description = ""
+        }
+        else {
+            this.setState({
+                controlFav: true,
+                message: "Added your favourite list"
+            });
+            this.props.name.searhBind = false;
+            this.state.favourite.push(info);
+            localStorage.setItem("favouriteInfo", JSON.stringify(this.state.favourite));
+        }
     }
 
     render() {
 
         return (
             <div className="container mt-4 ">
-                <h5 style={{ color: "#333" }}><i className="far fa-grin-stars"></i> {this.props.name.imagination}</h5>
+                <h5 style={{ color: "#333" }}><i className="far fa-grin-stars"></i>
+                    {this.state.message == "Movie or Series not found" ?
+                        <div className="alert alert-danger">{this.state.message}</div>
+                        : this.props.name.imagination}</h5>
                 <hr />
                 <div className="row d-flex justify-content-center ">
                     <div className="card mb-3 mb-5" style={{ maxWidth: "80vh" }}>
@@ -59,7 +74,7 @@ class KeepMovie extends React.Component {
                                 ref="button"
                                 onClick={this.favMovie.bind(this)}
                                 className="btn btn-danger btn-block rounded-0"><i className="far fa-heart"></i></button> :
-                                <div className="alert alert-success mb-0" >Added your favourite list</div>
+                                <div className="alert alert-success mb-0" >{this.state.message}</div>
                         }
                     </div>
                 </div>

@@ -44,6 +44,7 @@ class searchMovie extends React.Component {
                         image: process.env.PUBLIC_URL + "/default-movie.jpg",
                     });
 
+
                 }
             });
             this.setState({

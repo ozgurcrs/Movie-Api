@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 class Favourite extends React.Component {
     state = {
         fav: [],
-        message: "Add New Favourite Movie"
+        message: "Remove all favourite movies"
     }
     componentDidMount() {
         const result = localStorage.getItem("favouriteInfo");
@@ -18,7 +18,7 @@ class Favourite extends React.Component {
         }
         else {
             this.setState({
-                message: "Hey Firstly add favourite movie"
+                message: "Hey Firstly add favourite a movie"
             })
         }
     }
@@ -26,17 +26,26 @@ class Favourite extends React.Component {
         return (
             <div>
                 <div className="container mt-4 ">
-                    <h5 style={{ color: "#333" }}>{this.state.message} &nbsp;
+                    {this.state.message == "Remove all favourite movies" ?
+                        <h5 style={{ color: "#333" }}>{this.state.message} &nbsp;
+                        <button onClick={() => {
+                                localStorage.removeItem("favouriteInfo");
+                                window.location.reload();
+                            }}
+                                className="btn btn-sm bg-danger text-light">
+                                <i className="far fa-trash-alt"></i>
+                            </button>
+                        </h5> : <h5 style={{ color: "#333" }}>{this.state.message} &nbsp;
                         <a href="/"
-                            className="btn btn-sm bg-secondary text-light">
-                            <i className="fas fa-plus"></i>
-                        </a>
-                    </h5>
+                                className="btn btn-sm bg-secondary text-light">
+                                <i className="fas fa-plus"></i>
+                            </a>
+                        </h5>
+                    }
                     <hr />
                     <div className="row ">
                         {this.state.fav.map(item => (
-
-                            <div className="col-md-6 " key={item.description}>
+                            <div className="col-md-6" key={item.description}>
                                 <div className="card mb-3 mb-5" style={{ maxWidth: "80vh" }}>
                                     <div className="row no-gutters">
                                         <div className="col-md-4">
